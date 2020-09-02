@@ -14,8 +14,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  place-content: center;
+  justify-content: center;
 
   width: 100%;
   max-width: 700px;
@@ -24,7 +23,7 @@ export const Content = styled.div`
     width: 215px;
   }
     form {
-      margin: 20px 0;
+      margin: 50px 0;
       width: 340px;
       text-align: center;
 
@@ -50,20 +49,18 @@ export const Content = styled.div`
       display: block;
       margin-top: 24px;
       text-decoration: none;
-      transition: color 0.2s;
       display: flex;
       align-items: center;
       position: relative;
       top: -30px;
       transition: color 0.2s;
 
+      &:hover {
+        color: ${shade(0.2, '#F4EDE8')};
+      }
 
       svg {
         margin-right: 16px;
-      }
-
-      &:hover {
-        color: ${shade(0.2, '#F4EDE8')};
       }
   }
 `;
