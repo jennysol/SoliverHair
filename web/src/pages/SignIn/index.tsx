@@ -3,11 +3,10 @@ import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import { Form } from '@unform/web';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { useAuth } from '../../hooks/auth';
 import { useToast } from '../../hooks/toast';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 
 import logoImg from '../../assets/logo.png';
@@ -26,7 +25,9 @@ const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
-  const { addToast} = useToast();
+  const { addToast } = useToast();
+
+  const history = useHistory();
 
   const handleSubmit = useCallback(
     async (data: SignInFormData) => {
@@ -48,6 +49,14 @@ const SignIn: React.FC = () => {
           email: data.email,
           password: data.password,
         });
+
+        addToast({
+          type: 'success',
+          title: 'Login efetuado',
+          description: 'Seu login foi feito com sucesso!',
+        });
+
+        history.push('/dashboard');
       } catch (err) {
         if (err instanceof Yup.ValidationError) {
           const errors = getValidationErrors(err);
@@ -60,11 +69,11 @@ const SignIn: React.FC = () => {
         addToast({
           type: 'error',
           title: 'Erro na autentificação',
-          description: 'Ocorreu um erro ao fazer logim, cheque as credenciais.',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais.',
         });
       }
     },
-  [signIn, addToast],
+  [signIn, addToast, history],
 );
 
   return (
@@ -74,7 +83,7 @@ const SignIn: React.FC = () => {
           <img className="logo" src={logoImg} alt="SoliverHerSalon"/>
 
           <Form ref={formRef} onSubmit={handleSubmit}>
-            <h1>Faça seu logon</h1>
+            <h1>Faça seu login</h1>
 
             <Input name="email" icon={FiMail} placeholder="E-mail" />
             <Input
@@ -99,6 +108,6 @@ const SignIn: React.FC = () => {
       <Background />
     </Container>
     );
-  }
+  };
 
 export default SignIn;
