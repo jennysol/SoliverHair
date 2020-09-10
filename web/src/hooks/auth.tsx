@@ -17,9 +17,9 @@ interface AuthContextData  {
   signOut(): void;
 }
 
-const AuthContext = createContext<AuthContextData>({} as AuthContextData,); // iniciando vazio para o usuario logar
+const AuthContext = createContext<AuthContextData>({} as AuthContextData); // iniciando vazio para o usuario logar
 
-const AuthProvider: React.FC = ({ children })=> {
+ const AuthProvider: React.FC = ({ children })=> {
   const [data, setData] = useState<AuthState>(() => {
      const token = localStorage.getItem('@GoBarber:token');
      const user = localStorage.getItem('@GoBarber:user');
@@ -32,14 +32,14 @@ const AuthProvider: React.FC = ({ children })=> {
   });
 
   const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('sessions', {
+    const response = await api.post('/sessions', {
       email,
       password,
     });
 
     const { token, user } = response.data;
 
-    localStorage.setItem('@GoBarber:token', token);
+    localStorage.setItem('@GoBarber: token', token);
     localStorage.setItem('@GoBarber:user', JSON.stringify(user));
 
     setData({ token, user });
